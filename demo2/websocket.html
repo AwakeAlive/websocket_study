@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>websocket示例</title>
+  </head>
+  <body>
+    <h1>Echo test</h1>
+    <input type="text" id="sendTxt" name="" value="">
+    <button id="sendBth">send</button>
+    <div id="receiveView"></div>
+    <script type="text/javascript">
+      let websocket = new WebSocket("ws://localhost:3000/")
+
+      websocket.onopen = function() {
+        console.log('websocket connected');
+        document.getElementById('receiveView').innerHTML = 'connected';
+      }
+
+      websocket.onclose = function() {
+        console.log('websocket closed');
+        document.getElementById('receiveView').innerHTML = 'closed';
+      }
+
+      websocket.onmessage = function(e) {
+        console.log('websocket message: ', e.data)
+        document.getElementById('receiveView').innerHTML = e.data
+      }
+
+      document.getElementById('sendBth').onclick = function() {
+        var sendTxt = document.getElementById('sendTxt').value;
+        websocket.send(sendTxt)
+      }
+    </script>
+  </body>
+</html>
